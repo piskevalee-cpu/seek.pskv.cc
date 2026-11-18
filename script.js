@@ -63,12 +63,11 @@
     }
     el.innerHTML = html;
   }
-  buildLogo($('#pixelLogo'), false);
   buildLogo($('#pixelLogoHalf'), true);
 
-  /* The icon half of the same bitmap, used everywhere a PNG mark used to be. */
+  /* The icon half of the same bitmap, without the SEEK lettering. */
   const ICON_COLS = 9;
-  document.querySelectorAll('[data-mark]').forEach((el) => {
+  function buildIcon(el) {
     let html = '';
     for (let r = 0; r < ROWS; r++) {
       let row = '';
@@ -81,7 +80,9 @@
       html += `<div class="pixel-row">${row}</div>`;
     }
     el.innerHTML = html;
-  });
+  }
+  buildIcon($('#pixelLogo'));
+  document.querySelectorAll('[data-mark]').forEach(buildIcon);
 
   /* ---------- Per-character sheen on the impactful words of a heading ---------- */
   document.querySelectorAll('.impact').forEach((el) => {
