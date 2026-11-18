@@ -81,7 +81,7 @@
     }
     el.innerHTML = html;
   }
-  buildIcon($('#pixelLogo'));
+  buildLogo($('#pixelLogo'), false);
   document.querySelectorAll('[data-mark]').forEach(buildIcon);
 
   /* ---------- Per-character sheen on the impactful words of a heading ---------- */
