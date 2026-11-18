@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="SEEK is an unbloated, local first, agentic harness for the terminal. Filesystem as config, local llama.cpp or cloud models, and a thin prompt with five tools.">
+  <meta name="theme-color" content="#100e15">
+  <title>SEEK · a thin, local-first coding-agent harness</title>
+  <link rel="icon" href="assets/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="build-strip" aria-hidden="true">
+    <span>seek / build 0.7.0</span>
+    <span>5 crates / branch develop</span>
+  </div>
+
+  <nav class="topic-browser" id="topicBrowser" aria-label="Topic browser">
+    <div class="tb-list">
+      <a href="#land" class="tb-item"><span class="tb-num">01</span><span>LAND</span></a>
+      <a href="#pulse" class="tb-item"><span class="tb-num">02</span><span>PULSE</span></a>
+      <a href="#interface" class="tb-item"><span class="tb-num">03</span><span>INTERFACE</span></a>
+      <a href="#pieces" class="tb-item"><span class="tb-num">04</span><span>PIECES</span></a>
+      <a href="#features" class="tb-item"><span class="tb-num">05</span><span>FEATURES</span></a>
+      <a href="#models" class="tb-item"><span class="tb-num">06</span><span>MODELS</span></a>
+      <a href="#extend" class="tb-item"><span class="tb-num">07</span><span>EXTEND</span></a>
+      <a href="#roadmap" class="tb-item"><span class="tb-num">08</span><span>ROADMAP</span></a>
+    </div>
+    <a class="tb-gh" href="https://github.com/piskevalee-cpu/Seek" target="_blank" rel="noopener">GITHUB ↗</a>
+  </nav>
+
+  <main id="main">
+    <!-- HERO: the real 25x9 logo bitmap drawn in terminal pixels -->
+    <section class="hero" id="land">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="wrap hero-inner">
+        <div class="pixel-logo" id="pixelLogo" role="img" aria-label="SEEK logo drawn from the terminal's 25 by 9 pixel bitmap"></div>
+        <h1>The harness she tells<br><span class="gradient-text impact">you not to worry about.</span></h1>
+        <p class="lede">unbloated, local first, agentic harness</p>
+
+        <div class="install-box">
+          <span class="prompt-sign" aria-hidden="true">$</span>
+          <code id="installCmd">curl -fsSL https://raw.githubusercontent.com/piskevalee-cpu/Seek/develop/install.sh | sh</code>
+          <span class="os-tag" id="osTag">LINUX</span>
+          <button class="copy-btn" id="copyInstall" aria-label="Copy install command">
+            <span class="copy-label">Copy</span>
+          </button>
+        </div>
+        <p class="install-note" id="installNote">Detected Linux · pipe the installer to sh</p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#interface">See the interface <span aria-hidden="true">↓</span></a>
+          <a class="btn btn-outline" href="https://github.com/piskevalee-cpu/Seek/blob/develop/docs/SPEC.md">Read the spec <span aria-hidden="true">↗</span></a>
+        </div>
+
+        <ul class="hero-facts" aria-label="At a glance">
+          <li><strong>5</strong> crates</li>
+          <li><strong>1,500</strong> token prompt budget</li>
+          <li><strong>0</strong> telemetry</li>
+          <li><strong>2024</strong> edition / Rust</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- PULSE: live GitHub activity, drawn in pixels -->
+    <section class="section section-pulse" id="pulse">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Repo <span class="impact">pulse</span></h2>
+          <p class="section-sub">Open pull requests and the latest commit, fetched from GitHub. The bars are pixels, not a chart.</p>
+        </div>
+        <div class="pulse-panel">
+          <div class="pulse-grid">
+            <div class="pulse-cell">
+              <div class="pulse-label">OPEN PULL REQUESTS</div>
+              <div class="pulse-bar" id="pulsePrBar">░░░░░░░░</div>
+              <div class="pulse-value" id="pulsePrValue">…</div>
+            </div>
+            <div class="pulse-cell">
+              <div class="pulse-label">LATEST COMMIT</div>
+              <div class="pulse-value" id="pulseCommitTime">…</div>
+              <div class="pulse-detail" id="pulseCommit">…</div>
+            </div>
+            <div class="pulse-cell">
+              <div class="pulse-label">NEWEST PULL REQUEST</div>
+              <div class="pulse-detail" id="pulsePrTitle">…</div>
+              <div class="pulse-detail dim" id="pulsePrBy">…</div>
+            </div>
+          </div>
+          <div class="pulse-foot">
+            <span id="pulseStatus">fetching…</span>
+            <button class="mini-btn" id="pulseRefresh" aria-label="Refresh repository activity">↻ refresh</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERFACE: real pixels and glyphs from the TUI, not a mockup -->
+    <section class="section" id="interface">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>The interface, <span class="impact">pixel for pixel</span></h2>
+          <p class="section-sub">These are the real glyphs of the terminal UI · the 25×9 bitmap, the eight-cell streak, the rails and the rounded prompt. Try them below.</p>
+        </div>
+
+        <div class="specimen-grid">
+          <article class="specimen specimen-logo">
+            <div class="specimen-label">01 · THE MARK</div>
+            <div class="pixel-logo pixel-logo-half" id="pixelLogoHalf" role="img" aria-label="SEEK logo in half-block pixels"></div>
+            <p>25 columns × 9 rows, drawn as <code>██</code> or half blocks. Only lit pixels are painted; the terminal shows through.</p>
+          </article>
+
+          <article class="specimen specimen-shimmer">
+            <div class="specimen-label">02 · THINKING</div>
+            <div class="shimmer-line" id="shimmerLine" aria-hidden="true"></div>
+            <div class="shimmer-static" id="shimmerStatic" hidden>thinking...</div>
+            <p>Eight cells. A streak travels through them and wraps at the right · the same wave as the logo's sheen.</p>
+            <button class="mini-btn" id="shimmerToggle" aria-pressed="false">Freeze the streak</button>
+          </article>
+
+          <article class="specimen specimen-prompt">
+            <div class="specimen-label">03 · THE PROMPT</div>
+            <div class="prompt-frame">
+              <div class="pf-top"><span>╭</span><span class="pf-model" id="pfModel">[no model selected]</span><span class="pf-rule"></span><span>╮</span></div>
+              <div class="pf-mid"><span>│</span><span class="pf-arrow">❯</span><input id="specInput" type="text" autocomplete="off" spellcheck="false" aria-label="Type a command to see completions" placeholder="type / or @ …"><span>│</span></div>
+              <div class="pf-bot"><span>╰</span><span class="pf-rule pf-rule-short"></span><span class="pf-hint">Enter sends · Alt+Enter newline</span><span>╯</span></div>
+              <div class="completions" id="completions" role="listbox" aria-label="Completions" hidden></div>
+            </div>
+            <p>The model name sits in the top border. Type <code>/</code> for commands and skills, <code>@</code> for project files.</p>
+          </article>
+
+          <article class="specimen specimen-rails">
+            <div class="specimen-label">04 · THE TRANSCRIPT</div>
+            <div class="rail-stack" aria-label="Transcript specimen">
+              <div class="rail-block rail-user"><span class="rail">│</span><span class="rail-text"><span class="arrow">❯</span> add a test for the parser</span></div>
+              <div class="rail-block rail-assistant"><span class="rail">│</span><span class="rail-text">I'll look at the parser and add a focused test.</span></div>
+              <div class="rail-block rail-tool"><span class="rail">│</span><span class="rail-text"><span class="tool-ico">◇</span> read <span class="tool-path">src/parser.rs</span></span></div>
+            </div>
+            <p>One column of colour per block: blue for you, magenta for the model, grey for tools. The band is yours; the answer is plain text.</p>
+          </article>
+
+          <article class="specimen specimen-footer">
+            <div class="specimen-label">05 · THE FOOTER</div>
+            <div class="footer-specimen">
+              <button class="mode-chip" id="modeChip" aria-label="Cycle permission mode">ASK</button>
+              <span class="fs-model" id="fsModel">[no model selected]</span>
+              <span class="fs-place">user/project develop</span>
+              <span class="fs-metrics" id="fsMetrics">~0 / 0 · 0%</span>
+            </div>
+            <p>One line: the permission chip, the model, where you are, and this session's counts. Click the chip to cycle READ → ASK → YOLO.</p>
+            <button class="mini-btn" id="modelBtn">◎ Open the model picker</button>
+          </article>
+
+          <article class="specimen specimen-pixels">
+            <div class="specimen-label">06 · ONE HOME PER FACT</div>
+            <div class="pixel-rule" aria-hidden="true">
+              <span>█</span><span>█</span><span>█</span><span>▓</span><span>▒</span><span>░</span><span> </span><span>░</span><span>▒</span><span>▓</span><span>█</span><span>█</span><span>█</span>
+            </div>
+            <p>Nothing is shown twice. The METRICS block lives at the bottom of the sidebar, or in the footer when the sidebar is closed · never both.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- MORE PIECES: home widgets, permission prompt, context meter, toggles, small-screen wordmark -->
+    <section class="section section-pieces" id="pieces">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>The <span class="impact">small pieces</span></h2>
+          <p class="section-sub">Home widgets, permission prompts, the context meter. Hover the pixels and click the controls · they use the glyphs of the real interface.</p>
+        </div>
+
+        <div class="specimen-grid pieces-grid">
+          <article class="specimen piece">
+            <div class="specimen-label">07 · HOME WIDGETS</div>
+            <div class="widget-row">
+              <div class="glyph-panel" id="widgetGit" tabindex="0" aria-label="git widget"></div>
+              <div class="glyph-panel" id="widgetUsage" tabindex="0" aria-label="usage widget"></div>
+            </div>
+            <p>Two built-ins: <code>git</code> shows recent commits, <code>usage</code> shows lifetime tokens. Eight lines each, forty columns wide.</p>
+          </article>
+
+          <article class="specimen piece">
+            <div class="specimen-label">08 · PERMISSION PROMPT</div>
+            <div class="permission-panel">
+              <div class="perm-q"><span class="perm-mark">?</span> edit wants to run</div>
+              <div class="perm-summary">  rewrite src/parser.rs</div>
+              <div class="perm-choices" id="permChoices">
+                <button class="perm-choice selected" data-choice="0"><span class="pm">❯</span> Yes</button>
+                <button class="perm-choice" data-choice="1"><span class="pm"> </span> No</button>
+                <button class="perm-choice" data-choice="2"><span class="pm"> </span> Tell SEEK what to do</button>
+              </div>
+              <div class="perm-hint">  ↑/↓ choose · Enter confirm · Esc denies</div>
+            </div>
+            <p>The question, the summary and three choices. The marker is a real <code>❯</code>; the selected row is a filled band.</p>
+          </article>
+
+          <article class="specimen piece">
+            <div class="specimen-label">09 · CONTEXT METER</div>
+            <div class="context-panel">
+              <div class="ctx-line"><span class="ctx-bar" id="ctxBar" aria-hidden="true"></span></div>
+              <div class="ctx-nums" id="ctxNums">~12.4k / 32k · 38%</div>
+            </div>
+            <p>The used context as a row of <code>█</code> and <code>░</code>, with the estimate and the real usage from the last response.</p>
+          </article>
+
+          <article class="specimen piece">
+            <div class="specimen-label">10 · PROCESSES</div>
+            <div class="process-list">
+              <div class="process-row"><span class="pmark">◇</span><span class="pname">bash</span><span class="pcmd">cargo test -j 2</span><span class="pstatus">running</span></div>
+              <div class="process-row"><span class="pmark">◇</span><span class="pname">bash</span><span class="pcmd">git status --short</span><span class="pstatus done">done</span></div>
+              <div class="process-row"><span class="pmark">◇</span><span class="pname">web</span><span class="pcmd">search: rust 2024</span><span class="pstatus done">done</span></div>
+            </div>
+            <p>Every command registers a row. The diamond is the tool glyph; the state is text, never colour alone.</p>
+          </article>
+
+          <article class="specimen piece">
+            <div class="specimen-label">11 · TOGGLES</div>
+            <div class="toggle-grid" id="toggleGrid">
+              <button class="toggle on" aria-pressed="true"><span class="tbox">[x]</span> read</button>
+              <button class="toggle on" aria-pressed="true"><span class="tbox">[x]</span> edit</button>
+              <button class="toggle on" aria-pressed="true"><span class="tbox">[x]</span> bash</button>
+              <button class="toggle on" aria-pressed="true"><span class="tbox">[x]</span> web_search</button>
+              <button class="toggle" aria-pressed="false"><span class="tbox">[ ]</span> fetch</button>
+            </div>
+            <p><code>/tools</code> and <code>/skills</code> are checklists. Click a row to flip it · the network tool is off by default.</p>
+          </article>
+
+          <article class="specimen piece">
+            <div class="specimen-label">12 · SMALL SCREEN</div>
+            <div class="pixel-word" id="pixelWord" role="img" aria-label="SEEK in block letters"></div>
+            <div class="pixel-ticker" id="pixelTicker" aria-hidden="true">░▒▓█▓▒░ ░▒▓█▓▒░ ░▒▓█▓▒░</div>
+            <p>Below 56 columns the bitmap collapses to the word. Hover either line to send a wave through the blocks.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section section-alt" id="features">
+      <div class="wrap">
+        <div class="section-head">
+          <h2><span class="impact">thin</span> on purpose</h2>
+          <p class="section-sub">A short prompt, a small toolset, and no hidden machinery.</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card"><div class="feature-num">01</div><h3>Thin by design</h3><p>System prompt plus default tool schemas fit in a 1,500-token budget · checked in CI. Five tools, nothing lurking.</p></article>
+          <article class="feature-card"><div class="feature-num">02</div><h3>Local is first-class</h3><p>Discovers models in <code>~/seek/models/</code>, starts <code>llama serve</code>, waits for health, reads the real context size and stops the server on exit.</p></article>
+          <article class="feature-card"><div class="feature-num">03</div><h3>Model-agnostic</h3><p>Switch between a local server, Anthropic and OpenAI-compatible models between turns without losing the conversation.</p></article>
+          <article class="feature-card"><div class="feature-num">04</div><h3>Filesystem is config</h3><p>No settings database. <code>~/seek/</code> holds GGUF models, <code>SKILL.md</code> skills, <code>tool.toml</code> tools, widgets and append-only session JSONL. Every config carries <code>schema = 1</code>, and install is idempotent.</p></article>
+          <article class="feature-card"><div class="feature-num">05</div><h3>The agent can search</h3><p><code>web_search</code> takes a query, not a URL, and returns numbered sources from a chain of engines.</p></article>
+          <article class="feature-card"><div class="feature-num">06</div><h3>Nothing hidden</h3><p>Logs, process ids, context use and speed are always reachable. Every fact has exactly one home on screen.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODELS -->
+    <section class="section" id="models">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Bring your <span class="impact">own model</span></h2>
+          <p class="section-sub">The provider boundary lives in one crate; the TUI never talks to an API directly.</p>
+        </div>
+        <div class="model-grid">
+          <article class="model-card local"><span class="model-badge">LOCAL</span><h3>llama.cpp</h3><p>Point SEEK at the unified <code>llama</code> binary. Models are scanned from <code>~/seek/models/</code>; the server runs as its own process group and shuts down cleanly.</p></article>
+          <article class="model-card"><span class="model-badge badge-alt">CLOUD</span><h3>Anthropic</h3><p>Native messages API with streaming tool use, reasoning variants and prompt caching. Keys live in the environment or <code>state/auth.json</code>.</p></article>
+          <article class="model-card"><span class="model-badge badge-alt">CLOUD</span><h3>OpenAI-compatible</h3><p>Any endpoint that speaks the OpenAI chat protocol · gateways, local servers, hosted models · behind the same catalog and stream parser.</p></article>
+        </div>
+        <p class="fine-print">API keys are never written to <code>config.toml</code> or <code>providers.toml</code>, and are redacted wherever they could be logged.</p>
+      </div>
+    </section>
+
+    <!-- EXTEND -->
+    <section class="section section-alt" id="extend">
+      <div class="wrap extend-grid">
+        <div>
+          <h2><span class="impact">extend without rebuilding</span></h2>
+          <p class="section-sub left">There is no settings database. <code>~/seek/</code> is the config: drop a folder in, toggle it with <code>/skills</code> or <code>/tools</code>, and it is live on the next turn. Each contract carries <code>schema = 1</code>, and <code>install.sh</code> is idempotent, so it never overwrites a file of yours.</p>
+          <ul class="check-list">
+            <li><code>skills/</code> uses the Agent Skills <code>SKILL.md</code> format; only the name, description and path enter the prompt</li>
+            <li><code>tools/</code> declares <code>tool.toml</code>, <code>schema.json</code> and a <code>run</code> script that reads JSON on stdin</li>
+            <li><code>widgets/</code> prints up to eight lines from a <code>run</code> script on the home screen</li>
+            <li><code>state/</code> keeps append-only sessions, <code>user.toml</code> and <code>auth.json</code> at mode 0600</li>
+            <li>API keys never go in <code>config.toml</code> or <code>providers.toml</code></li>
+          </ul>
+        </div>
+        <div class="fs-tree" aria-label="Example ~/seek folder layout">
+          <div class="tree-title">~/seek/</div>
+          <pre><span class="t-dim">├──</span> <span class="t-dir">models/</span>      <span class="t-dim"># gguf files</span>
+<span class="t-dim">├──</span> <span class="t-dir">skills/</span>      <span class="t-dim"># SKILL.md</span>
+<span class="t-dim">├──</span> <span class="t-dir">tools/</span>       <span class="t-dim"># tool.toml + run</span>
+<span class="t-dim">├──</span> <span class="t-dir">widgets/</span>     <span class="t-dim"># widget.toml + run</span>
+<span class="t-dim">└──</span> <span class="t-dir">state/</span>
+<span class="t-dim">    ├──</span> auth.json      <span class="t-dim"># 0600</span>
+<span class="t-dim">    ├──</span> user.toml
+<span class="t-dim">    └──</span> sessions/      <span class="t-dim"># append-only jsonl</span></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ROADMAP -->
+    <section class="section" id="roadmap">
+      <div class="wrap">
+        <div class="section-head">
+          <h2><span class="impact">roadmap</span></h2>
+          <p class="section-sub">The spec is the source of truth; later milestones are not pulled forward.</p>
+        </div>
+        <div class="roadmap-table" role="table" aria-label="Milestone status">
+          <div class="rt-row rt-head" role="row"><span role="columnheader">Milestone</span><span role="columnheader">Scope</span><span role="columnheader">Status</span></div>
+          <div class="rt-row" role="row"><span role="cell">v0.1.0</span><span role="cell">Workspace, CI, theme, logo, layout, prompt bar, sidebar</span><span role="cell" class="done">done</span></div>
+          <div class="rt-row" role="row"><span role="cell">v0.2.0</span><span role="cell">Providers, reasoning variants, /provider, sessions</span><span role="cell" class="done">done</span></div>
+          <div class="rt-row" role="row"><span role="cell">v0.3.0</span><span role="cell">Agent loop, tools, permissions, processes</span><span role="cell" class="done">done</span></div>
+          <div class="rt-row" role="row"><span role="cell">v0.4.0</span><span role="cell">llama.cpp supervisor, models folder, launch options</span><span role="cell" class="done">done</span></div>
+          <div class="rt-row" role="row"><span role="cell">v0.5.0</span><span role="cell">Context accounting, METRICS block, /compact</span><span role="cell" class="done">done</span></div>
+          <div class="rt-row" role="row"><span role="cell">v0.6.0</span><span role="cell">Skills, external tools, toggles, /init</span><span role="cell" class="done">done</span></div>
+          <div class="rt-row" role="row"><span role="cell">v0.7.0</span><span role="cell">Home widgets, install.sh, rate limits, web search</span><span role="cell" class="done">done</span></div>
+          <div class="rt-row" role="row"><span role="cell">v0.8.0 – v1.0.0</span><span role="cell">Hardening, contract review, contracts frozen</span><span role="cell" class="wip">in progress</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+      <div class="wrap cta-inner">
+        <span class="pixel-mark cta-mark" data-mark aria-hidden="true"></span>
+        <div>
+          <h2><span class="impact">Ready</span> when you are.</h2>
+          <p>Clone, install, and pick a model when you're ready. SEEK opens on the chat.</p>
+        </div>
+        <a class="btn btn-primary" href="https://github.com/piskevalee-cpu/Seek" target="_blank" rel="noopener">Star on GitHub <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <div class="footer-brand">SEEK</div>
+      <p>A thin, local-first coding-agent harness for the terminal.</p>
+      <nav aria-label="Footer links">
+        <a href="https://github.com/piskevalee-cpu/Seek/blob/develop/docs/SPEC.md">Spec</a>
+        <a href="https://github.com/piskevalee-cpu/Seek/blob/develop/docs/TESTING.md">Testing</a>
+        <a href="https://github.com/piskevalee-cpu/Seek/blob/develop/CONTRIBUTING.md">Contributing</a>
+        <a href="https://github.com/piskevalee-cpu/Seek/issues" target="_blank" rel="noopener">Issues</a>
+      </nav>
+      <p class="fine-print">No license yet · the owner has not chosen one. Vendored code keeps its upstream license.</p>
+    </div>
+  </footer>
+
+  <!-- MODEL PICKER: LOCAL tag appears only here, as in the TUI -->
+  <div class="modal-backdrop" id="modelModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modelModalTitle">
+      <div class="modal-head">
+        <div>
+          <h3 id="modelModalTitle">Choose a model</h3>
+        </div>
+        <button class="modal-close" id="modelClose" aria-label="Close model picker">×</button>
+      </div>
+      <div class="modal-group">
+        <div class="modal-group-title">Local models <span>~/seek/models/</span></div>
+        <button class="model-option" data-model="MiniCPM5-2B"><span class="local-tag">LOCAL</span><span class="model-name">MiniCPM5-2B-heretic-Q4_K_M</span><span class="model-desc">2B · 32k context</span></button>
+        <button class="model-option" data-model="LFM3-1.7B"><span class="local-tag">LOCAL</span><span class="model-name">LFM3-1.7B-Q5_K_M</span><span class="model-desc">1.7B · 32k context</span></button>
+      </div>
+      <div class="modal-group">
+        <div class="modal-group-title">Cloud catalog <span>Anthropic · OpenAI-compatible</span></div>
+        <button class="model-option" data-model="claude-sonnet"><span class="cloud-tag">CLOUD</span><span class="model-name">claude-sonnet-4</span><span class="model-desc">Anthropic · reasoning</span></button>
+        <button class="model-option" data-model="gpt-oss-120b"><span class="cloud-tag">CLOUD</span><span class="model-name">gpt-oss-120b</span><span class="model-desc">OpenAI-compatible</span></button>
+      </div>
+      <p class="modal-note">Keys live in the environment or <code>state/auth.json</code> · never in config files.</p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
