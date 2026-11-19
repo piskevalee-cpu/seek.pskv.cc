@@ -37,8 +37,6 @@ button { font-family: inherit; cursor: pointer; }
 section[id] { scroll-margin-top: 82px; }
 .skip-link { position: absolute; left: -9999px; top: 10px; z-index: 100; background: var(--accent); color: var(--bg); padding: 10px 16px; border-radius: 8px; font-weight: 700; }
 .skip-link:focus { left: 16px; color: var(--bg); }
-.build-strip { display: flex; justify-content: space-between; gap: 16px; padding: 6px 20px; background: #0b0910; border-bottom: 1px solid var(--border); color: var(--dim); font-family: var(--mono); font-size: .62rem; letter-spacing: .13em; text-transform: lowercase; white-space: nowrap; overflow: hidden; }
-.build-strip .bs-mid { color: var(--accent-2); }
 
 /* ---------- Topic browser (replaces the header) ---------- */
 .topic-browser { position: fixed; inset: 0 auto 0 0; z-index: 40; width: 196px; display: flex; flex-direction: column; background: #0c0a11; border-right: 1px solid var(--border); padding: 18px 12px; }
@@ -320,7 +318,6 @@ code { color: var(--accent); }
 @media (max-width: 640px) {
   .wrap { width: calc(100% - 32px); }
   body { font-size: 15px; padding-bottom: calc(66px + env(safe-area-inset-bottom)); }
-  .build-strip { display: none; }
 
   .topic-browser {
     position: fixed; top: auto; left: 0; right: 0; bottom: 0; width: 100%;
