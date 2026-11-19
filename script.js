@@ -65,24 +65,24 @@
   }
   buildLogo($('#pixelLogoHalf'), true);
 
-  /* The icon half of the same bitmap, without the SEEK lettering. */
+  /* The bitmap as solid CSS pixels: no glyph gaps, so it stays crisp at phone sizes. */
   const ICON_COLS = 9;
-  function buildIcon(el) {
+  function buildGrid(el, cols) {
+    el.classList.add('pixel-grid');
+    el.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
     let html = '';
     for (let r = 0; r < ROWS; r++) {
-      let row = '';
-      for (let c = 0; c < ICON_COLS; c++) {
+      for (let c = 0; c < cols; c++) {
         const ch = LOGO[r][c];
         const diag = ((c + (ROWS - 1 - r)) / (COLS + ROWS)).toFixed(3);
         const cls = ch === '#' ? 'lit' : ch === '.' ? 'dim' : 'dark';
-        row += `<span class="px ${cls}" style="--d:${diag};--i:${r * ICON_COLS + c}">${cls === 'dark' ? '  ' : '██'}</span>`;
+        html += `<i class="pel ${cls}" style="--d:${diag};--i:${r * cols + c}"></i>`;
       }
-      html += `<div class="pixel-row">${row}</div>`;
     }
     el.innerHTML = html;
   }
-  buildLogo($('#pixelLogo'), false);
-  document.querySelectorAll('[data-mark]').forEach(buildIcon);
+  buildGrid($('#pixelLogo'), COLS);
+  document.querySelectorAll('[data-mark]').forEach((el) => buildGrid(el, ICON_COLS));
 
   /* ---------- Per-character sheen on the impactful words of a heading ---------- */
   document.querySelectorAll('.impact').forEach((el) => {

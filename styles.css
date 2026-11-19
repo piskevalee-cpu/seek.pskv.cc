@@ -79,6 +79,15 @@ section[id] { scroll-margin-top: 82px; }
 @keyframes px-shine { 0% { color: #787485; } 8% { color: var(--cube-light); } 26%, 100% { color: #787485; } }
 @keyframes px-dim-shine { 0% { color: #2f2b3c; } 8% { color: #a09ab0; } 26%, 100% { color: #2f2b3c; } }
 .pixel-logo-half { font-size: clamp(9px, 1.9vw, 18px); }
+.pixel-grid { display: grid; gap: 0; }
+.pixel-grid .pel { display: block; width: 100%; aspect-ratio: 1; background: transparent; }
+.pixel-grid .pel.lit { background: #787485; animation: pxl-shine 4s linear infinite; animation-delay: calc(var(--d) * -4s); }
+.pixel-grid .pel.dim { background: #2f2b3c; animation: pxl-dim-shine 4s linear infinite; animation-delay: calc(var(--d) * -4s); }
+@keyframes pxl-shine { 0%, 100% { background: #787485; } 8% { background: var(--cube-light); box-shadow: 0 0 10px rgba(203,198,221,.5); } 26% { background: #787485; box-shadow: none; } }
+@keyframes pxl-dim-shine { 0%, 100% { background: #2f2b3c; } 8% { background: #a09ab0; } 26% { background: #2f2b3c; } }
+.hero .pixel-logo.pixel-grid { width: 350px; max-width: 100%; }
+.hero .pixel-logo.pixel-grid:hover .pel.lit { animation-duration: 1.1s; filter: brightness(1.35); }
+.pixel-mark.pixel-grid { display: grid; width: 90px; font-size: 0; }
 
 /* ---------- Hero ---------- */
 .hero { position: relative; overflow: hidden; padding: 80px 0 76px; border-bottom: 1px solid var(--border); }
@@ -334,6 +343,7 @@ code { color: var(--accent); }
 
   .hero { padding: 46px 0 52px; }
   .hero .pixel-logo { font-size: clamp(8px, 2.9vw, 12px); margin-bottom: 34px; }
+  .hero .pixel-logo.pixel-grid { width: 325px; }
   .hero h1 { font-size: clamp(1.3rem, 6.6vw, 2.2rem); line-height: 1.14; letter-spacing: -.045em; margin-bottom: 18px; }
   .lede { font-size: 1.02rem; line-height: 1.55; margin-bottom: 26px; }
   .install-box { display: grid; grid-template-columns: auto 1fr auto; gap: 8px 10px; width: 100%; padding: 12px; }
@@ -394,6 +404,8 @@ code { color: var(--accent); }
   html { scroll-behavior: auto; }
   .px.lit { animation: none; color: var(--cube-light); }
   .px.dim { animation: none; color: var(--dim); }
+  .pixel-grid .pel.lit { animation: none; background: var(--cube-light); }
+  .pixel-grid .pel.dim { animation: none; background: var(--dim); }
   .impact span { animation: none; color: var(--cube-light); }
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
 }
