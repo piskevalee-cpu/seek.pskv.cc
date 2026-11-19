@@ -10,9 +10,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=7">
 </head>
 <body>
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <nav class="topic-browser" id="topicBrowser" aria-label="Topic browser">
@@ -153,9 +154,7 @@
 
           <article class="specimen specimen-pixels">
             <div class="specimen-label">06 · ONE HOME PER FACT</div>
-            <div class="pixel-rule" aria-hidden="true">
-              <span>█</span><span>█</span><span>█</span><span>▓</span><span>▒</span><span>░</span><span> </span><span>░</span><span>▒</span><span>▓</span><span>█</span><span>█</span><span>█</span>
-            </div>
+            <div class="pixel-rule" data-pattern="███▓▒░ ░▒▓███" aria-hidden="true"></div>
             <p>Nothing is shown twice. The METRICS block lives at the bottom of the sidebar, or in the footer when the sidebar is closed · never both.</p>
           </article>
         </div>
@@ -371,6 +370,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
-  <script src="script.js?v=4"></script>
+  <script src="script.js?v=6"></script>
 </body>
 </html>

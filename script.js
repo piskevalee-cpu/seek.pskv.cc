@@ -63,9 +63,23 @@
     }
     el.innerHTML = html;
   }
-  buildLogo($('#pixelLogoHalf'), true);
-
   /* The bitmap as solid CSS pixels: no glyph gaps, so it stays crisp at phone sizes. */
+  function solid(el, cols, rows, clsFn) {
+    el.classList.add('solid-pixels');
+    el.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+    let html = '';
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) html += `<i class="${clsFn ? clsFn(r, c) : ''}"></i>`;
+    }
+    el.innerHTML = html;
+    return Array.from(el.querySelectorAll('i'));
+  }
+  solid($('#pixelLogoHalf'), COLS, ROWS, (r, c) => {
+    const ch = LOGO[r][c];
+    return ch === '#' ? 'lit' : ch === '.' ? 'dim' : 'dark';
+  });
+
+
   const ICON_COLS = 9;
   function buildGrid(el, cols) {
     el.classList.add('pixel-grid');
@@ -165,13 +179,7 @@
   const shimmerLine = $('#shimmerLine');
   const shimmerStatic = $('#shimmerStatic');
   const CELLS = 8, SPEED = 0.12;
-  const cells = [];
-  for (let i = 0; i < CELLS; i++) {
-    const s = document.createElement('span');
-    s.textContent = '█';
-    shimmerLine.appendChild(s);
-    cells.push(s);
-  }
+  const cells = solid(shimmerLine, CELLS, 1);
   function waveBrightness(tick, index, width, speed) {
     const head = ((tick * speed) % 1) * width;
     let distance = (((index - head) % width) + width) % width;
@@ -185,7 +193,7 @@
     cells.forEach((cell, i) => {
       const b = waveBrightness(tick, i, CELLS, SPEED);
       const rgb = base.map((v, k) => Math.round(v + (lit[k] - v) * b));
-      cell.style.color = `rgb(${rgb.join(',')})`;
+      cell.style.background = `rgb(${rgb.join(',')})`;
     });
   }
   let tick = 0, shimmerTimer = null;
@@ -235,16 +243,35 @@
   /* ---------- Topic browser: mark the section in view ---------- */
   const topicItems = Array.from(document.querySelectorAll('.tb-item'));
   const sections = topicItems.map((a) => document.querySelector(a.getAttribute('href'))).filter(Boolean);
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
+  const progress = $('#scrollProgress');
+  let scrollQueued = false;
+  function onScroll() {
+    const marker = window.scrollY + (window.innerWidth <= 640 ? 100 : 130);
+    let current = sections[0];
+    sections.forEach((s) => { if (s.offsetTop <= marker) current = s; });
+    topicItems.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === '#' + current.id));
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+    scrollQueued = false;
+  }
+  window.addEventListener('scroll', () => {
+    if (!scrollQueued) { scrollQueued = true; requestAnimationFrame(onScroll); }
+  }, { passive: true });
+  window.addEventListener('resize', onScroll);
+  onScroll();
+
+  /* ---------- Reveal content as it scrolls into view ---------- */
+  if (!reduceMotion && 'IntersectionObserver' in window) {
+    const revealItems = document.querySelectorAll('.section-head, .specimen, .feature-card, .model-card, .pulse-panel, .roadmap-table, .fs-tree');
+    const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        topicItems.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+        entry.target.classList.add('shown');
+        revealObserver.unobserve(entry.target);
       });
-    }, { rootMargin: '-30% 0px -60% 0px' });
-    sections.forEach((s) => observer.observe(s));
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+    revealItems.forEach((el) => { el.classList.add('reveal'); revealObserver.observe(el); });
   }
-  topicItems[0]?.classList.add('active');
 
   /* ---------- Model picker (LOCAL tag only here, as in the TUI) ---------- */
   const modal = $('#modelModal');
@@ -393,12 +420,7 @@
     btn.querySelector('.pm').textContent = '❯';
   });
 
-  const ctxBar = $('#ctxBar');
-  let ctxHtml = '';
-  for (let i = 0; i < 20; i++) {
-    ctxHtml += `<span class="${i < 8 ? 'filled' : ''}" style="--i:${i}">${i < 8 ? '█' : '░'}</span>`;
-  }
-  ctxBar.innerHTML = ctxHtml;
+  solid($('#ctxBar'), 20, 1, (r, i) => i < 8 ? 'filled' : 'dark').forEach((el, i) => el.style.setProperty('--i', i));
 
   $('#toggleGrid').addEventListener('click', (e) => {
     const btn = e.target.closest('.toggle');
@@ -413,24 +435,22 @@
     E: ['#####', '#....', '####.', '#....', '#####'],
     K: ['#...#', '#..#.', '###..', '#..#.', '#...#']
   };
-  const word = $('#pixelWord');
-  let wordHtml = '', idx = 0;
-  for (let row = 0; row < 5; row++) {
-    let line = '';
-    for (const letter of 'SEEK') {
-      for (const cell of FONT[letter][row]) {
-        line += cell === '#'
-          ? `<span class="on" style="--i:${idx}">██</span>`
-          : '  ';
-        idx++;
-      }
-    }
-    wordHtml += `<div class="pixel-row">${line}</div>`;
-  }
-  word.innerHTML = wordHtml;
+  solid($('#pixelWord'), 20, 5, (row, col) =>
+    FONT['SEEK'[Math.floor(col / 5)]][row][col % 5] === '#' ? 'on' : 'dark')
+    .forEach((el, i) => el.style.setProperty('--i', i));
 
-  $('#pixelTicker').innerHTML = Array.from($('#pixelTicker').textContent)
-    .map((ch, i) => `<span style="--i:${i}">${ch}</span>`).join('');
+  const shades = { '░': '#2f2b3c', '▒': '#565f89', '▓': '#8f899f', '█': '#c0caf5' };
+  const tickerText = $('#pixelTicker').textContent;
+  solid($('#pixelTicker'), tickerText.length, 1).forEach((el, i) => {
+    el.style.background = shades[tickerText[i]] || 'transparent';
+    el.style.setProperty('--i', i);
+  });
+  const rule = $('.pixel-rule');
+  const ruleText = rule.dataset.pattern;
+  solid(rule, ruleText.length, 1).forEach((el, i) => {
+    el.style.background = shades[ruleText[i]] || 'transparent';
+    el.style.setProperty('--i', i);
+  });
 
   /* ---------- Repo pulse: live GitHub activity in pixel style ---------- */
   const GH_API = 'https://api.github.com/repos/piskevalee-cpu/Seek';
