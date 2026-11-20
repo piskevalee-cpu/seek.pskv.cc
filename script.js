@@ -159,7 +159,7 @@
   });
 
   /* ---------- Real install command for the detected platform ---------- */
-  const RAW_INSTALL = 'https://raw.githubusercontent.com/piskevalee-cpu/Seek/develop/install.sh';
+  const RAW_INSTALL = 'https://raw.githubusercontent.com/piskevalee-cpu/Seek/main/install.sh';
   function detectOS() {
     const hay = ((navigator.userAgent || '') + ' ' + (navigator.platform || '') + ' ' + (navigator.userAgentData?.platform || '')).toLowerCase();
     if (hay.includes('win')) return 'WINDOWS';
